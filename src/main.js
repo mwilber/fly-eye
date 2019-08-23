@@ -26,7 +26,7 @@ import * as THREE from 'three';
 */
 // MAIN
 // standard global variables
-var container, scene, camera, renderer, controls, stats;
+var container, scene, camera, renderer, controls, stats, sphereGeometry, sphere;
 var clock = new THREE.Clock();
 // custom global variables
 var targetList = [];
@@ -43,12 +43,27 @@ function init()
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
-    var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    var cube = new THREE.Mesh( geometry, material );
-    scene.add( cube );
+    // this material causes a mesh to use colors assigned to faces
+	var faceColorMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, vertexColors: THREE.FaceColors } );
+    
+    sphereGeometry = new THREE.SphereGeometry( 80, 32, 16 );
+    console.log('size', sphereGeometry.faces.length);
+    for ( var i = 0; i < sphereGeometry.faces.length; i++ ) 
+    {
+        let face = sphereGeometry.faces[ i ];
+        if( i > sphereGeometry.faces.length * 0.666){
+            face.color.setRGB( 0, 0, 0.8 * Math.random() + 0.2 );
+        }else if( i > sphereGeometry.faces.length * 0.5){
+            face.color.setRGB( 0, 0.8 * Math.random() + 0.2, 0 );
+        }else{
+            face.color.setRGB( 0.8 * Math.random() + 0.2, 0, 0 );
+        }
+    }
+    sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
+    sphere.position.set(0, 50, 0);
+    scene.add(sphere);
 
-    camera.position.z = 5;
+    camera.position.z = 200;
 
 	
 }
@@ -62,7 +77,10 @@ function animate()
 }
 function update()
 {
-
+    // let facetIdx = Math.floor(Math.random()*sphereGeometry.faces.length);
+    // console.log('updating', facetIdx );
+    // sphereGeometry.faces[ facetIdx ].color.setRGB(255,255,255);
+    // sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
 }
 function render() 
 {
