@@ -77,9 +77,11 @@ function animate()
 }
 function update()
 {
-    // let facetIdx = Math.floor(Math.random()*sphereGeometry.faces.length);
+    let facetIdx = Math.floor(Math.random()*sphereGeometry.faces.length);
     // console.log('updating', facetIdx );
-    // sphereGeometry.faces[ facetIdx ].color.setRGB(255,255,255);
+    sphereGeometry.faces[ facetIdx ].color.setRGB(255,255,255);
+    //sphereGeometry.faces[ facetIdx ].colorsNeedUpdate = true;
+    sphere.geometry.colorsNeedUpdate = true;
     // sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
 }
 function render() 
