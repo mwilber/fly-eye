@@ -30,7 +30,8 @@ var container, scene, camera, renderer, controls, stats, sphereGeometry, sphere;
 var clock = new THREE.Clock();
 // custom global variables
 var targetList = [];
-var projector, mouse = { x: 0, y: 0 };
+const FASCETS = 8;
+
 init();
 animate();
 // FUNCTIONS 		
@@ -46,9 +47,10 @@ function init()
     var pixelData = canvas.getContext('2d').getImageData(0, 0, img.width, img.height).data;
     //console.log(pixelData);
 
-    var pixelMap = spiralMap(7);
+    var pixelMap = spiralMap(img.height);
     console.log(pixelMap);
     var sphereizedData = sphereMap(pixelMap, pixelData);
+    console.log(sphereizedData);
 
 	scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -60,7 +62,7 @@ function init()
     // this material causes a mesh to use colors assigned to faces
 	var faceColorMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, vertexColors: THREE.FaceColors } );
     
-    sphereGeometry = new THREE.SphereGeometry( 80, 8, 8 );
+    sphereGeometry = new THREE.SphereGeometry( 80, FASCETS, FASCETS );
     //console.log('size', sphereGeometry.faces.length);
     for ( var i = 0; i < sphereizedData.length; i++ ) 
     {
@@ -80,6 +82,7 @@ function init()
     sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
     sphere.position.set(0, 50, 0);
     sphere.rotateX(100*(Math.PI/180));
+    sphere.rotateY(-22.5*(Math.PI/180));
     scene.add(sphere);
 
     camera.position.z = 200;
@@ -92,7 +95,32 @@ function sphereMap(pixelMap, pixelData){
     let result = [];
     for ( var i = 0; i < pixelMap.length; i++ ) 
     {
-        result.push([(pixelData[(((pixelMap[i]-1)*4)+0)]/255),(pixelData[(((pixelMap[i]-1)*4)+1)]/255),(pixelData[(((pixelMap[i]-1)*4)+2)]/255)])
+        if(i>=((FASCETS*3)-1)){
+            // let r1 = (pixelData[(((pixelMap[i]-1)*4)+0)]/255);
+            // let r2 = (pixelData[(((pixelMap[i+1]-1)*4)+0)]/255);
+            // let g1 = (pixelData[(((pixelMap[i]-1)*4)+1)]/255);
+            // let g2 = (pixelData[(((pixelMap[i+1]-1)*4)+1)]/255);
+            // let b1 = (pixelData[(((pixelMap[i]-1)*4)+2)]/255);
+            // let b2 = (pixelData[(((pixelMap[i+1]-1)*4)+2)]/255);
+            // result.push([
+            //     (r1+r2)/2,
+            //     (g1+g2)/2,
+            //     (b1+b2)/2
+            // ]);
+            if(i%(Math.floor(i/FASCETS)) !== 0){
+                result.push([
+                    (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+                    (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+                    (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+                ]);
+            }
+        }else{
+            result.push([
+                (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+                (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+                (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+            ]);
+        }
 
     }
     return result;
