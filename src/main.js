@@ -62,12 +62,17 @@ function init()
     // this material causes a mesh to use colors assigned to faces
 	var faceColorMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, vertexColors: THREE.FaceColors } );
     
-    sphereGeometry = new THREE.SphereGeometry( 80, FASCETS, FASCETS );
+    sphereGeometry = new THREE.SphereGeometry( 80, 16, 24 );
     //console.log('size', sphereGeometry.faces.length);
-    for ( var i = 0; i < sphereizedData.length; i++ ) 
+    for ( var i = 0; i < sphereGeometry.faces.length; i++ ) 
     {
-        let face = sphereGeometry.faces[ i ];
-        face.color.setRGB( sphereizedData[i][0], sphereizedData[i][1], sphereizedData[i][2] );
+        //for( let j=0; j<2; j++ ){
+            let face = sphereGeometry.faces[ (i) ];
+            if(sphereizedData[i]){
+            face.color.setRGB( sphereizedData[i][0], sphereizedData[i][1], sphereizedData[i][2] );
+            }
+        //}
+        
         //console.log('setting color',(pixelData[((i*4)+0)]/255),(pixelData[((i*4)+1)]/255),(pixelData[((i*4)+2)]/255))
         //face.color.setRGB( pixelData[((i*4)+0)], pixelData[((i*4)+1)], pixelData[((i*4)+2)] );
         //face.color.setRGB( (pixelData[(((pixelMap[i]-1)*4)+0)]/255),(pixelData[(((pixelMap[i]-1)*4)+1)]/255),(pixelData[(((pixelMap[i]-1)*4)+2)]/255) );
@@ -80,6 +85,12 @@ function init()
         // }
     }
     sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
+
+    var geo = new THREE.EdgesGeometry( sphere.geometry ); // or WireframeGeometry
+    var mat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 2 } );
+    var wireframe = new THREE.LineSegments( geo, mat );
+    sphere.add( wireframe );
+
     sphere.position.set(0, 50, 0);
     sphere.rotateX(100*(Math.PI/180));
     sphere.rotateY(-22.5*(Math.PI/180));
@@ -95,26 +106,50 @@ function sphereMap(pixelMap, pixelData){
     let result = [];
     for ( var i = 0; i < pixelMap.length; i++ ) 
     {
-        if(i>=((FASCETS*3)-1)){
-            // let r1 = (pixelData[(((pixelMap[i]-1)*4)+0)]/255);
-            // let r2 = (pixelData[(((pixelMap[i+1]-1)*4)+0)]/255);
-            // let g1 = (pixelData[(((pixelMap[i]-1)*4)+1)]/255);
-            // let g2 = (pixelData[(((pixelMap[i+1]-1)*4)+1)]/255);
-            // let b1 = (pixelData[(((pixelMap[i]-1)*4)+2)]/255);
-            // let b2 = (pixelData[(((pixelMap[i+1]-1)*4)+2)]/255);
-            // result.push([
-            //     (r1+r2)/2,
-            //     (g1+g2)/2,
-            //     (b1+b2)/2
-            // ]);
-            if(i%(Math.floor(i/FASCETS)) !== 0){
+        if(i>=48){
+            if((i-24)%2 !== 0){
+                result.push([
+                    (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+                    (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+                    (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+                ]);
                 result.push([
                     (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
                     (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
                     (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
                 ]);
             }
+        }else if(i>=24){ /* GREEN */
+            if((i-24)%3 !== 0){
+                result.push([
+                    (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+                    (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+                    (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+                ]);
+                result.push([
+                    (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+                    (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+                    (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+                ]);
+            }
+        }else if(i>=8){
+            console.log('ck FASCETS*2', i)
+            result.push([
+                (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+                (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+                (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+            ]);
+            result.push([
+                (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+                (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+                (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+            ]);
         }else{
+            result.push([
+                (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+                (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+                (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+            ]);
             result.push([
                 (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
                 (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
