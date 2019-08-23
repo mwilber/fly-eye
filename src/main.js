@@ -36,6 +36,16 @@ animate();
 // FUNCTIONS 		
 function init() 
 {
+
+    var img = document.getElementById('refimg');
+    var canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
+
+    var pixelData = canvas.getContext('2d').getImageData(75, 75, 25, 25).data;
+    console.log(pixelData);
+
 	scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
@@ -51,16 +61,20 @@ function init()
     for ( var i = 0; i < sphereGeometry.faces.length; i++ ) 
     {
         let face = sphereGeometry.faces[ i ];
-        if( i > sphereGeometry.faces.length * 0.666){
-            face.color.setRGB( 0, 0, 0.8 * Math.random() + 0.2 );
-        }else if( i > sphereGeometry.faces.length * 0.5){
-            face.color.setRGB( 0, 0.8 * Math.random() + 0.2, 0 );
-        }else{
-            face.color.setRGB( 0.8 * Math.random() + 0.2, 0, 0 );
-        }
+        //console.log('setting color',(pixelData[((i*4)+0)]/255),(pixelData[((i*4)+1)]/255),(pixelData[((i*4)+2)]/255))
+        //face.color.setRGB( pixelData[((i*4)+0)], pixelData[((i*4)+1)], pixelData[((i*4)+2)] );
+        face.color.setRGB( (pixelData[((i*4)+0)]/255),(pixelData[((i*4)+1)]/255),(pixelData[((i*4)+2)]/255) );
+        // if( i > sphereGeometry.faces.length * 0.666){
+        //     face.color.setRGB( 0, 0, 0.8 * Math.random() + 0.2 );
+        // }else if( i > sphereGeometry.faces.length * 0.5){
+        //     face.color.setRGB( 0, 0.8 * Math.random() + 0.2, 0 );
+        // }else{
+        //     face.color.setRGB( 0.8 * Math.random() + 0.2, 0, 0 );
+        // }
     }
     sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
     sphere.position.set(0, 50, 0);
+    sphere.rotateX(100*(Math.PI/180));
     scene.add(sphere);
 
     camera.position.z = 200;
@@ -77,12 +91,10 @@ function animate()
 }
 function update()
 {
-    let facetIdx = Math.floor(Math.random()*sphereGeometry.faces.length);
-    // console.log('updating', facetIdx );
-    sphereGeometry.faces[ facetIdx ].color.setRGB(255,255,255);
-    //sphereGeometry.faces[ facetIdx ].colorsNeedUpdate = true;
-    sphere.geometry.colorsNeedUpdate = true;
-    // sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
+    // let facetIdx = Math.floor(Math.random()*sphereGeometry.faces.length);
+    // // console.log('updating', facetIdx );
+    // sphereGeometry.faces[ facetIdx ].color.setRGB(255,255,255);
+    // sphere.geometry.colorsNeedUpdate = true;
 }
 function render() 
 {
