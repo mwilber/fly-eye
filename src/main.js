@@ -92,8 +92,8 @@ function init()
     sphere.add( wireframe );
 
     sphere.position.set(0, 50, 0);
-    sphere.rotateX(100*(Math.PI/180));
-    sphere.rotateY(-22.5*(Math.PI/180));
+    sphere.rotateX(104*(Math.PI/180));
+    sphere.rotateY(-33.75*(Math.PI/180));
     scene.add(sphere);
 
     camera.position.z = 200;
