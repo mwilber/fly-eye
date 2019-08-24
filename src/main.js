@@ -104,58 +104,106 @@ function init()
 function sphereMap(pixelMap, pixelData){
 
     let result = [];
+
+    let spiralMark = 0;
+    let spiralIteration = 1;
+    let spiralLength = FASCETS;
+    let spiralScale = 0;
+    let scaleStep = 0;
+    let currentIterationCt = 0;
     for ( var i = 0; i < pixelMap.length; i++ ) 
     {
-        if(i>=48){
-            if((i-24)%2 !== 0){
-                result.push([
-                    (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-                    (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-                    (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-                ]);
-                result.push([
-                    (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-                    (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-                    (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-                ]);
-            }
-        }else if(i>=24){ /* GREEN */
-            if((i-24)%3 !== 0){
-                result.push([
-                    (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-                    (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-                    (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-                ]);
-                result.push([
-                    (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-                    (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-                    (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-                ]);
-            }
-        }else if(i>=8){
-            console.log('ck FASCETS*2', i)
-            result.push([
-                (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-                (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-                (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-            ]);
-            result.push([
-                (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-                (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-                (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-            ]);
-        }else{
-            result.push([
-                (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-                (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-                (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-            ]);
-            result.push([
-                (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-                (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-                (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-            ]);
+        
+        if( i >= spiralMark+spiralLength){
+            spiralMark = i;
+            currentIterationCt = 0;
+            spiralIteration++;
+            spiralLength = spiralIteration * FASCETS;
+            spiralScale = spiralLength / (FASCETS*2);
+            scaleStep = spiralScale;
+            //console.log('spiral', spiralIteration, spiralLength, spiralScale, i);
         }
+
+        currentIterationCt++;
+        console.log('spiral', currentIterationCt, spiralIteration, spiralLength, spiralScale, i);
+        
+        result.push([
+            (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+            (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+            (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+        ]);
+        result.push([
+            (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+            (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+            (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+        ]);
+
+        // Leave the first 2 iterations alone for now
+        if( i >= (FASCETS*3) ){
+            if(spiralScale%1 > 0){
+                scaleStep -= Math.floor(spiralScale);
+                if(scaleStep <= 0){ 
+                    scaleStep = spiralScale;
+                    i+=1;
+                }
+            }
+            i+=Math.floor(spiralScale-1);
+        }
+
+        //if( spiralIteration > 2 ){
+        //    i+=(Math.floor(spiralScale));
+        //    if(i%spiralScale > 0) i++;
+        //}
+        // if(i>=48){
+        //     if((i-24)%2 !== 0){
+        //         result.push([
+        //             (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+        //             (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+        //             (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+        //         ]);
+        //         result.push([
+        //             (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+        //             (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+        //             (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+        //         ]);
+        //     }
+        // }else if(i>=24){ /* GREEN */
+        //     if((i-24)%3 !== 0){
+        //         result.push([
+        //             (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+        //             (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+        //             (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+        //         ]);
+        //         result.push([
+        //             (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+        //             (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+        //             (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+        //         ]);
+        //     }
+        // }else if(i>=8){
+        //     console.log('ck FASCETS*2', i)
+        //     result.push([
+        //         (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+        //         (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+        //         (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+        //     ]);
+        //     result.push([
+        //         (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+        //         (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+        //         (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+        //     ]);
+        // }else{
+        //     result.push([
+        //         (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+        //         (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+        //         (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+        //     ]);
+        //     result.push([
+        //         (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
+        //         (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
+        //         (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
+        //     ]);
+        // }
 
     }
     return result;
