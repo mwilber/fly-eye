@@ -32,7 +32,11 @@ function init()
     var canvas = document.createElement('canvas');
     canvas.width = img.width;
     canvas.height = img.height;
-    canvas.getContext('2d').drawImage(img, 0, 0, 17, 17);
+
+    canvas.getContext('2d').save(); // Save the current state
+    canvas.getContext('2d').scale(-1, 1);
+    canvas.getContext('2d').drawImage(img, -17, 0, 17, 17);
+    canvas.getContext('2d').restore();
 
     var pixelData = canvas.getContext('2d').getImageData(0, 0, 17, 17).data;
     //console.log(pixelData);
