@@ -126,17 +126,23 @@ function sphereMap(pixelMap, pixelData){
 
         currentIterationCt++;
         console.log('spiral', currentIterationCt, spiralIteration, spiralLength, spiralScale, i);
-        
-        result.push([
-            (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-            (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-            (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-        ]);
-        result.push([
-            (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-            (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-            (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-        ]);
+
+        let r1 = (pixelData[(((pixelMap[i]-1)*4)+0)]/255);
+        let r2 = (pixelData[(((pixelMap[i+1]-1)*4)+0)]/255);
+        let g1 = (pixelData[(((pixelMap[i]-1)*4)+1)]/255);
+        let g2 = (pixelData[(((pixelMap[i+1]-1)*4)+1)]/255);
+        let b1 = (pixelData[(((pixelMap[i]-1)*4)+2)]/255);
+        let b2 = (pixelData[(((pixelMap[i+1]-1)*4)+2)]/255);
+
+        let averageColor = [
+            (r1+r2)/2,
+            (g1+g2)/2,
+            (b1+b2)/2
+        ];
+
+        // Double up on the color because there are 2 fascets per face
+        result.push(averageColor);
+        result.push(averageColor);
 
         // Leave the first 2 iterations alone for now
         if( i >= (FASCETS*3) ){
