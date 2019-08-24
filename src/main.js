@@ -19,17 +19,7 @@ import '../styles/main.scss';
 import * as THREE from 'three';
 
 
-/*
-	Three.js "tutorials by example"
-	Author: Lee Stemkoski
-	Date: July 2013 (three.js v59dev)
-*/
-// MAIN
-// standard global variables
-var container, scene, camera, renderer, controls, stats, sphereGeometry, sphere;
-var clock = new THREE.Clock();
-// custom global variables
-var targetList = [];
+var scene, camera, renderer, sphereGeometry, sphere;
 const FASCETS = 8;
 
 init();
@@ -48,9 +38,9 @@ function init()
     //console.log(pixelData);
 
     var pixelMap = spiralMap(img.height);
-    console.log(pixelMap);
+    //console.log(pixelMap);
     var sphereizedData = sphereMap(pixelMap, pixelData);
-    console.log(sphereizedData);
+    //console.log(sphereizedData);
 
 	scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -66,23 +56,10 @@ function init()
     //console.log('size', sphereGeometry.faces.length);
     for ( var i = 0; i < sphereGeometry.faces.length; i++ ) 
     {
-        //for( let j=0; j<2; j++ ){
-            let face = sphereGeometry.faces[ (i) ];
-            if(sphereizedData[i]){
+        let face = sphereGeometry.faces[ (i) ];
+        if(sphereizedData[i]){
             face.color.setRGB( sphereizedData[i][0], sphereizedData[i][1], sphereizedData[i][2] );
-            }
-        //}
-        
-        //console.log('setting color',(pixelData[((i*4)+0)]/255),(pixelData[((i*4)+1)]/255),(pixelData[((i*4)+2)]/255))
-        //face.color.setRGB( pixelData[((i*4)+0)], pixelData[((i*4)+1)], pixelData[((i*4)+2)] );
-        //face.color.setRGB( (pixelData[(((pixelMap[i]-1)*4)+0)]/255),(pixelData[(((pixelMap[i]-1)*4)+1)]/255),(pixelData[(((pixelMap[i]-1)*4)+2)]/255) );
-        // if( i > sphereGeometry.faces.length * 0.666){
-        //     face.color.setRGB( 0, 0, 0.8 * Math.random() + 0.2 );
-        // }else if( i > sphereGeometry.faces.length * 0.5){
-        //     face.color.setRGB( 0, 0.8 * Math.random() + 0.2, 0 );
-        // }else{
-        //     face.color.setRGB( 0.8 * Math.random() + 0.2, 0, 0 );
-        // }
+        }
     }
     sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
 
@@ -125,7 +102,7 @@ function sphereMap(pixelMap, pixelData){
         }
 
         currentIterationCt++;
-        console.log('spiral', currentIterationCt, spiralIteration, spiralLength, spiralScale, i);
+        //console.log('spiral', currentIterationCt, spiralIteration, spiralLength, spiralScale, i);
 
         let r1 = (pixelData[(((pixelMap[i]-1)*4)+0)]/255);
         let r2 = (pixelData[(((pixelMap[i+1]-1)*4)+0)]/255);
@@ -155,62 +132,6 @@ function sphereMap(pixelMap, pixelData){
             }
             i+=Math.floor(spiralScale-1);
         }
-
-        //if( spiralIteration > 2 ){
-        //    i+=(Math.floor(spiralScale));
-        //    if(i%spiralScale > 0) i++;
-        //}
-        // if(i>=48){
-        //     if((i-24)%2 !== 0){
-        //         result.push([
-        //             (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-        //             (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-        //             (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-        //         ]);
-        //         result.push([
-        //             (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-        //             (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-        //             (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-        //         ]);
-        //     }
-        // }else if(i>=24){ /* GREEN */
-        //     if((i-24)%3 !== 0){
-        //         result.push([
-        //             (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-        //             (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-        //             (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-        //         ]);
-        //         result.push([
-        //             (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-        //             (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-        //             (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-        //         ]);
-        //     }
-        // }else if(i>=8){
-        //     console.log('ck FASCETS*2', i)
-        //     result.push([
-        //         (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-        //         (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-        //         (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-        //     ]);
-        //     result.push([
-        //         (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-        //         (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-        //         (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-        //     ]);
-        // }else{
-        //     result.push([
-        //         (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-        //         (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-        //         (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-        //     ]);
-        //     result.push([
-        //         (pixelData[(((pixelMap[i]-1)*4)+0)]/255),
-        //         (pixelData[(((pixelMap[i]-1)*4)+1)]/255),
-        //         (pixelData[(((pixelMap[i]-1)*4)+2)]/255)
-        //     ]);
-        // }
-
     }
     return result;
 }
@@ -291,10 +212,7 @@ function animate()
 }
 function update()
 {
-    // let facetIdx = Math.floor(Math.random()*sphereGeometry.faces.length);
-    // // console.log('updating', facetIdx );
-    // sphereGeometry.faces[ facetIdx ].color.setRGB(255,255,255);
-    // sphere.geometry.colorsNeedUpdate = true;
+    
 }
 function render() 
 {
