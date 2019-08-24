@@ -32,12 +32,12 @@ function init()
     var canvas = document.createElement('canvas');
     canvas.width = img.width;
     canvas.height = img.height;
-    canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height);
+    canvas.getContext('2d').drawImage(img, 0, 0, 17, 17);
 
-    var pixelData = canvas.getContext('2d').getImageData(0, 0, img.width, img.height).data;
+    var pixelData = canvas.getContext('2d').getImageData(0, 0, 17, 17).data;
     //console.log(pixelData);
 
-    var pixelMap = spiralMap(img.height);
+    var pixelMap = spiralMap(17);
     //console.log(pixelMap);
     var sphereizedData = sphereMap(pixelMap, pixelData);
     //console.log(sphereizedData);
@@ -46,13 +46,14 @@ function init()
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
     renderer = new THREE.WebGLRenderer();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( 512, 512 );
     document.body.appendChild( renderer.domElement );
 
     // this material causes a mesh to use colors assigned to faces
-	var faceColorMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, vertexColors: THREE.FaceColors } );
+	var faceColorMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, vertexColors: THREE.FaceColors, side: THREE.DoubleSide } );
     
-    sphereGeometry = new THREE.SphereGeometry( 80, 16, 24 );
+    //sphereGeometry = new THREE.SphereGeometry( 80, 16, 24 );
+    sphereGeometry = new THREE.SphereGeometry( 80, 16, 8, 0, 2 * Math.PI, 0, Math.PI / 2 );
     //console.log('size', sphereGeometry.faces.length);
     for ( var i = 0; i < sphereGeometry.faces.length; i++ ) 
     {
@@ -68,12 +69,12 @@ function init()
     var wireframe = new THREE.LineSegments( geo, mat );
     sphere.add( wireframe );
 
-    sphere.position.set(0, 50, 0);
-    sphere.rotateX(104*(Math.PI/180));
-    sphere.rotateY(-33.75*(Math.PI/180));
+    sphere.position.set(0, 0, 0);
+    sphere.rotateX(-90*(Math.PI/180));
+    sphere.rotateY(146.25*(Math.PI/180));
     scene.add(sphere);
 
-    camera.position.z = 200;
+    camera.position.z = 100;
 
 	
 }
