@@ -39,7 +39,8 @@ function init()
             (stream)=>{
                 //stream
                 console.log('initting video stream');
-                document.querySelector('video').src = window.URL.createObjectURL(stream);
+                //document.querySelector('video').src = window.URL.createObjectURL(stream);
+                document.querySelector('video').srcObject = stream;
             },
             (e)=>{
                 //no stream
