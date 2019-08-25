@@ -81,7 +81,7 @@ function init()
         });
     });
 
-    document.querySelector('video').src = '/assets/images/1_intro_anim.mp4';
+    //document.querySelector('video').src = '/assets/images/1_intro_anim.mp4';
 
     
     canvas = document.createElement('canvas');
