@@ -33,19 +33,40 @@ animate();
 function init() 
 {
     document.getElementById('camstart').addEventListener('click', (evt)=>{
-        console.log('camming');
-        navigator.getUserMedia(
-            {video: true},
-            (stream)=>{
-                //stream
-                console.log('initting video stream');
-                //document.querySelector('video').src = window.URL.createObjectURL(stream);
-                document.querySelector('video').srcObject = stream;
-            },
-            (e)=>{
-                //no stream
-                console.log('no vid stream', e);
-            });
+        // console.log('camming');
+        // navigator.getUserMedia(
+        //     {video: true, facingMode: { 
+        //         exact: 'environment'
+        //       }},
+        //     (stream)=>{
+        //         //stream
+        //         console.log('initting video stream');
+        //         //document.querySelector('video').src = window.URL.createObjectURL(stream);
+        //         document.querySelector('video').srcObject = stream;
+        //     },
+        //     (e)=>{
+        //         //no stream
+        //         console.log('no vid stream', e);
+        //     });
+        navigator.mediaDevices.enumerateDevices().then((deviceInfos)=>{
+            for (let i = 0; i !== deviceInfos.length; ++i) {
+                const deviceInfo = deviceInfos[i];
+                const option = document.createElement('option');
+                option.value = deviceInfo.deviceId;
+                if (deviceInfo.kind === 'videoinput') {
+                    let tmpBtn = document.createElement('div');
+                    tmpBtn.innerHTML = deviceInfo.label || `camera ${videoSelect.length + 1}`;
+                    document.getElementById('cambuttons').appendChild(tmpBtn);
+                  //option.text = deviceInfo.label || `camera ${videoSelect.length + 1}`;
+                  //videoSelect.appendChild(option);
+                } else {
+                  console.log('Some other kind of source/device: ', deviceInfo);
+                }
+            }
+        })).catch((e)=>{
+            //no stream
+            console.log('no camera ', e);
+        });
     });
 
     document.querySelector('video').src = '/assets/images/1_intro_anim.mp4';
