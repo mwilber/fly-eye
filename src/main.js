@@ -18,8 +18,13 @@ import '../styles/main.scss';
 
 import * as THREE from 'three';
 
+navigator.getUserMedia = ( navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia);
 
-var scene, camera, renderer, sphereGeometry, sphere;
+
+var scene, camera, renderer, sphereGeometry, sphere, pixelMap, canvas;
 const FASCETS = 8;
 
 init();
@@ -27,24 +32,34 @@ animate();
 // FUNCTIONS 		
 function init() 
 {
+    document.getElementById('camstart').addEventListener('click', (evt)=>{
+        console.log('camming');
+        navigator.getUserMedia(
+            {video: true},
+            (stream)=>{
+                //stream
+                console.log('initting video stream');
+                document.querySelector('video').src = window.URL.createObjectURL(stream);
+            },
+            (e)=>{
+                //no stream
+                console.log('no vid stream', e);
+            });
+    });
 
-    var img = document.getElementById('refimg');
-    var canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
+    document.querySelector('video').src = '/assets/images/1_intro_anim.mp4';
 
-    canvas.getContext('2d').save(); // Save the current state
-    canvas.getContext('2d').scale(-1, 1);
-    canvas.getContext('2d').drawImage(img, -17, 0, 17, 17);
-    canvas.getContext('2d').restore();
+    
+    canvas = document.createElement('canvas');
+    canvas.width = 17;
+    canvas.height = 17;
 
-    var pixelData = canvas.getContext('2d').getImageData(0, 0, 17, 17).data;
-    //console.log(pixelData);
+    document.body.appendChild( canvas );
+    
 
-    var pixelMap = spiralMap(17);
+    pixelMap = spiralMap(17);
     //console.log(pixelMap);
-    var sphereizedData = sphereMap(pixelMap, pixelData);
-    //console.log(sphereizedData);
+    
 
 	scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -59,17 +74,11 @@ function init()
     //sphereGeometry = new THREE.SphereGeometry( 80, 16, 24 );
     sphereGeometry = new THREE.SphereGeometry( 80, 16, 8, 0, 2 * Math.PI, 0, Math.PI / 2 );
     //console.log('size', sphereGeometry.faces.length);
-    for ( var i = 0; i < sphereGeometry.faces.length; i++ ) 
-    {
-        let face = sphereGeometry.faces[ (i) ];
-        if(sphereizedData[i]){
-            face.color.setRGB( sphereizedData[i][0], sphereizedData[i][1], sphereizedData[i][2] );
-        }
-    }
+    
     sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
 
     var geo = new THREE.EdgesGeometry( sphere.geometry ); // or WireframeGeometry
-    var mat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 2 } );
+    var mat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 4 } );
     var wireframe = new THREE.LineSegments( geo, mat );
     sphere.add( wireframe );
 
@@ -81,6 +90,32 @@ function init()
     camera.position.z = 100;
 
 	
+}
+
+function drawSphere(){
+    var img = document.getElementById('refimg');
+
+    //canvas.getContext('2d').drawImage(img, -17, 0, 17, 17);
+    let video = document.querySelector('video');
+
+    canvas.getContext('2d').save(); // Save the current state
+    canvas.getContext('2d').scale(-1, 1);
+    canvas.getContext('2d').drawImage(video, -17, 0, 17, 17);
+    canvas.getContext('2d').restore();
+
+    var pixelData = canvas.getContext('2d').getImageData(0, 0, 17, 17).data;
+    //console.log(pixelData);
+
+    var sphereizedData = sphereMap(pixelMap, pixelData);
+    //console.log(sphereizedData);
+
+    for ( var i = 0; i < sphereGeometry.faces.length; i++ ) 
+    {
+        let face = sphereGeometry.faces[ (i) ];
+        if(sphereizedData[i]){
+            face.color.setRGB( sphereizedData[i][0], sphereizedData[i][1], sphereizedData[i][2] );
+        }
+    }
 }
 
 function sphereMap(pixelMap, pixelData){
@@ -217,7 +252,10 @@ function animate()
 }
 function update()
 {
-    
+    // let facetIdx = Math.floor(Math.random()*sphereGeometry.faces.length);
+    // sphereGeometry.faces[ facetIdx ].color.setRGB(255,255,255);
+    drawSphere();
+    sphere.geometry.colorsNeedUpdate = true;
 }
 function render() 
 {
