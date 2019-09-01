@@ -81,35 +81,5 @@ function init()
         });
     });
 
-    //document.querySelector('video').src = '/assets/images/1_intro_anim.mp4';
-    
-
 	
-
-	
-}
-
-
-
-
-
-
-
-function toString(v) { return "[ " + v.x + ", " + v.y + ", " + v.z + " ]"; }
-function animate() 
-{
-    requestAnimationFrame( animate );
-	render();		
-	update();
-}
-function update()
-{
-    // let facetIdx = Math.floor(Math.random()*sphereGeometry.faces.length);
-    // sphereGeometry.faces[ facetIdx ].color.setRGB(255,255,255);
-    drawSphere();
-    sphere.geometry.colorsNeedUpdate = true;
-}
-function render() 
-{
-	renderer.render( scene, camera );
 }

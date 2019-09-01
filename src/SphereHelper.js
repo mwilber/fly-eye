@@ -1,4 +1,4 @@
-export class Sphereize {
+export class SphereHelper {
 
     static SpiralMap(dimension){
 

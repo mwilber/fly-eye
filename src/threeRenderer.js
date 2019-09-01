@@ -1,5 +1,46 @@
-export class ThreeRenderer(){
+import * as THREE from 'three';
+
+export class ThreeRenderer{
     constructor(){
+        this.scene = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+        this.renderer = new THREE.WebGLRenderer();
+        this.renderer.setSize( 512, 512 );
+        document.body.appendChild( this.renderer.domElement );
+
+        // this material causes a mesh to use colors assigned to faces
+        let faceColorMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, vertexColors: THREE.FaceColors, side: THREE.DoubleSide } );
+        this.sphereGeometry = new THREE.SphereGeometry( 80, 16, 8, 0, 2 * Math.PI, 0, Math.PI / 2 );
+        this.sphere = new THREE.Mesh( this.sphereGeometry, faceColorMaterial );
         
+        let geo = new THREE.EdgesGeometry( this.sphere.geometry ); // or WireframeGeometry
+        let mat = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 4 } );
+        let wireframe = new THREE.LineSegments( geo, mat );
+        this.sphere.add( wireframe );
+
+        this.sphere.position.set(0, 0, 0);
+        this.sphere.rotateX(-90*(Math.PI/180));
+        this.sphere.rotateY(146.25*(Math.PI/180));
+        this.scene.add(this.sphere);
+
+        this.camera.position.z = 100;
+
+        document.querySelector('video').src = '/assets/images/1_intro_anim.mp4';
+    }
+
+    update(sphereizedData){
+        for ( var i = 0; i < this.sphereGeometry.faces.length; i++ ) 
+        {
+            let face = this.sphereGeometry.faces[ (i) ];
+            if(sphereizedData[i]){
+                face.color.setRGB( sphereizedData[i][0], sphereizedData[i][1], sphereizedData[i][2] );
+            }
+        }
+        this.sphere.geometry.colorsNeedUpdate = true;
+    }
+
+    render(){
+        this.renderer.render( this.scene, this.camera );
     }
 }
