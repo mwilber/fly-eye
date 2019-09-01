@@ -5,9 +5,9 @@ const CssPlugin = require('extract-css-chunks-webpack-plugin');
 
 const htmlMetadata = {
     domain: 'greenzeta.com',
-    title: 'Three.js Playground - FlyVision',
+    title: 'FlyEye',
     author: 'Matthew Wilber',
-    description: 'Webpack boilerplate using babel & sass.',
+    description: 'Experimentation with three.js and camera input.',
     themecolor: '#7bb951',
     twittername: 'greenzeta',
     facebookid: '631337813',
