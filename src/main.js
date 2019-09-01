@@ -26,9 +26,11 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
     navigator.msGetUserMedia);
 
 const FASCETS = 8;
+let elemImg = document.getElementById('refimg');
+let elemVideo = document.querySelector('video');
 
 let threeRenderer = new ThreeRenderer();
-let pixelRenderer = new PixelRenderer();
+let pixelRenderer = new PixelRenderer({srcElement: elemImg, resolution: 17});
 let pixelMap = SphereHelper.SpiralMap(17);
 //console.log(pixelMap);
 animate();
