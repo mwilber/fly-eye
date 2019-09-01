@@ -52,4 +52,8 @@ export class CameraHelper(){
             console.log('no camera ', e);
         });
     }
+
+    GetCameraFeed(){
+        
+    }
 }
