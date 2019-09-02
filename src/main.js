@@ -48,6 +48,7 @@ function animate(){
 }
 
 document.getElementById('camstart').addEventListener('click', (event)=>{
+    pixelRenderer.SetImageSource(elemVideo);
     cameraHelper.CreateCameraList(document.getElementById('cambuttons'));
 });
 

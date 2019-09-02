@@ -26,7 +26,7 @@ export class ThreeRenderer{
 
         this.camera.position.z = 100;
 
-        document.querySelector('video').src = '/assets/images/1_intro_anim.mp4';
+        //document.querySelector('video').src = '/assets/images/1_intro_anim.mp4';
     }
 
     update(sphereizedData){
