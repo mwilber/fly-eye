@@ -13,6 +13,10 @@ export class PixelRenderer {
         document.body.appendChild( this.canvas );
     }
 
+    SetImageSource(srcElement){
+        this.srcElement = srcElement;
+    }
+
     // Reduce the source image to a low res canvas
     DrawMap(){
         if(this.srcElement){
