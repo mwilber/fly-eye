@@ -34,7 +34,7 @@ export class CameraHelper{
                     tmpBtn.addEventListener('click',this.StartCameraFeed.bind(deviceInfo));
                     targetElement.appendChild(tmpBtn);
                 } else {
-                    console.log('Some other kind of source/device: ', deviceInfo);
+                    //console.log('Some other kind of source/device: ', deviceInfo);
                 }
             }
         }).catch((e)=>{

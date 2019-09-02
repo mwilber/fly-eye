@@ -16,15 +16,12 @@ import '../app-shell.css';
 // Load application styles
 import '../styles/main.scss';
 
+import './getUserMedia-polyfill';
+
 import { PixelRenderer } from './PixelRenderer';
 import { SphereHelper } from './SphereHelper';
 import { ThreeRenderer } from './ThreeRenderer';
 import { CameraHelper } from './CameraHelper';
-
-navigator.getUserMedia = ( navigator.getUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.msGetUserMedia);
 
 const FASCETS = 8;
 let elemImg = document.getElementById('refimg');
