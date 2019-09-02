@@ -30,12 +30,11 @@ const FASCETS = 8;
 let elemImg = document.getElementById('refimg');
 let elemVideo = document.querySelector('video');
 
-let cameraHelper = new CameraHelper({initButton: document.getElementById('camstart')});
+let cameraHelper = new CameraHelper({initButton: });
 let threeRenderer = new ThreeRenderer();
 let pixelRenderer = new PixelRenderer({srcElement: elemImg, resolution: 17});
 let pixelMap = SphereHelper.SpiralMap(17);
 //console.log(pixelMap);
-animate();
 
 function animate(){
     requestAnimationFrame( animate );
@@ -47,3 +46,11 @@ function animate(){
     //console.log(SphereHelperdData);
     threeRenderer.update(sphereColorData);
 }
+
+document.getElementById('camstart').addEventListener('click', (event)=>{
+    cameraHelper.CreateCameraList(document.getElementById('cambuttons'));
+});
+
+document.addEventListener("DOMContentLoaded", (event)=>{ 
+    animate();
+});
