@@ -19,6 +19,7 @@ import '../styles/main.scss';
 import { PixelRenderer } from './PixelRenderer';
 import { SphereHelper } from './SphereHelper';
 import { ThreeRenderer } from './ThreeRenderer';
+import { CameraHelper } from './CameraHelper';
 
 navigator.getUserMedia = ( navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
@@ -29,6 +30,7 @@ const FASCETS = 8;
 let elemImg = document.getElementById('refimg');
 let elemVideo = document.querySelector('video');
 
+let cameraHelper = new CameraHelper({initButton: document.getElementById('camstart')});
 let threeRenderer = new ThreeRenderer();
 let pixelRenderer = new PixelRenderer({srcElement: elemImg, resolution: 17});
 let pixelMap = SphereHelper.SpiralMap(17);
