@@ -30,7 +30,7 @@ const FASCETS = 8;
 let elemImg = document.getElementById('refimg');
 let elemVideo = document.querySelector('video');
 
-let cameraHelper = new CameraHelper({initButton: });
+let cameraHelper = new CameraHelper();
 let threeRenderer = new ThreeRenderer();
 let pixelRenderer = new PixelRenderer({srcElement: elemImg, resolution: 17});
 let pixelMap = SphereHelper.SpiralMap(17);
