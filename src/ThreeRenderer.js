@@ -24,7 +24,7 @@ export class ThreeRenderer{
         this.sphere.rotateY(146.25*(Math.PI/180));
         this.scene.add(this.sphere);
 
-        this.camera.position.z = 50;
+        this.camera.position.z = 100;
 
         //document.querySelector('video').src = '/assets/images/1_intro_anim.mp4';
     }
