@@ -35,7 +35,7 @@ let pixelMap = SphereHelper.SpiralMap(RESOLUTION);
 console.log(pixelMap);
 
 function animate(){
-    //requestAnimationFrame( animate );
+    requestAnimationFrame( animate );
 	threeRenderer.render();
     pixelRenderer.DrawMap();
     let pixelData = pixelRenderer.GetPixelData();
@@ -43,8 +43,6 @@ function animate(){
     let sphereColorData = SphereHelper.SphereMap(pixelMap, pixelData, FASCETS);
     //console.log(SphereHelperdData);
     threeRenderer.update(sphereColorData);
-
-    threeRenderer.render();
 }
 
 document.getElementById('camstart').addEventListener('click', (event)=>{
