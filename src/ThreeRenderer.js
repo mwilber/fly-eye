@@ -11,7 +11,7 @@ export class ThreeRenderer{
 
         // this material causes a mesh to use colors assigned to faces
         let faceColorMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, vertexColors: THREE.FaceColors, side: THREE.DoubleSide } );
-        this.sphereGeometry = new THREE.SphereGeometry( 80, 16, 8, 0, 2 * Math.PI, 0, Math.PI / 2 );
+        this.sphereGeometry = new THREE.SphereGeometry( 80, 32, 15, 0, 2 * Math.PI, 0, Math.PI / 2 );
         this.sphere = new THREE.Mesh( this.sphereGeometry, faceColorMaterial );
         
         let geo = new THREE.EdgesGeometry( this.sphere.geometry ); // or WireframeGeometry
@@ -24,7 +24,7 @@ export class ThreeRenderer{
         this.sphere.rotateY(146.25*(Math.PI/180));
         this.scene.add(this.sphere);
 
-        this.camera.position.z = 100;
+        this.camera.position.z = 50;
 
         //document.querySelector('video').src = '/assets/images/1_intro_anim.mp4';
     }

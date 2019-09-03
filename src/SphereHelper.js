@@ -77,22 +77,27 @@ export class SphereHelper {
         let spiralScale = 0;
         let scaleStep = 0;
         let currentIterationCt = 0;
+        let testCt = 0;
         for ( var i = 0; i < pixelMap.length; i++ ) 
+        //for ( var i = 0; i < 223; i++ ) 
         {
-            
-            if( i >= spiralMark+spiralLength){
+            if( i >= (spiralMark+spiralLength)){
+                testCt = 1;
                 spiralMark = i;
-                currentIterationCt = 0;
+                currentIterationCt = 1;
                 spiralIteration++;
                 spiralLength = spiralIteration * FASCETS;
-                spiralScale = spiralLength / (FASCETS*2);
-                scaleStep = spiralScale;
-                //console.log('spiral', spiralIteration, spiralLength, spiralScale, i);
+                spiralScale = spiralLength / (FASCETS*4);
+                //spiralScale = (spiralLength - (FASCETS*4))/spiralLength;
+                //spiralScale = .25;
+                scaleStep = 1;
+                console.log('----------------------------------------');
+                console.log('spiral', spiralIteration, spiralLength, spiralScale, i);
             }
     
             currentIterationCt++;
             //console.log('spiral', currentIterationCt, spiralIteration, spiralLength, spiralScale, i);
-    
+            //console.log('getting location', (pixelMap[i]-1));
             let r1 = (pixelData[(((pixelMap[i]-1)*4)+0)]/255);
             let r2 = (pixelData[(((pixelMap[i+1]-1)*4)+0)]/255);
             let g1 = (pixelData[(((pixelMap[i]-1)*4)+1)]/255);
@@ -105,23 +110,59 @@ export class SphereHelper {
                 (g1+g2)/2,
                 (b1+b2)/2
             ];
+
+            // averageColor = [
+            //     r1,
+            //     g1,
+            //     b1
+            // ];
+            //console.log('color', averageColor);
     
             // Double up on the color because there are 2 fascets per face
             result.push(averageColor);
             result.push(averageColor);
     
             // Leave the first 2 iterations alone for now
-            if( i >= (FASCETS*3) ){
+            if( spiralIteration < 3){
+                result.push(averageColor);
+                result.push(averageColor);
+            }else if(spiralIteration == 3){
+                if(i==24 || (i+1)%8 == 0){
+                    console.log('add one to row 3', i);
+                    result.push(averageColor);
+                    result.push(averageColor);
+                    result.push(averageColor);
+                    result.push(averageColor);
+                }
+            }
+            
+            if( spiralIteration > 4 ){    
+                console.log('checking ', i, testCt, scaleStep, (spiralScale % 1).toFixed(2) == 0.75, (testCt % 4) == 0);
+                testCt++;
+            //}else{
+                //console.log('butter zone')
                 if(spiralScale%1 > 0){
-                    scaleStep -= Math.floor(spiralScale);
+                    //console.log('scaleStep', scaleStep)
+                    //scaleStep = scaleStep.toPrecision(2) - spiralScale;
+                    //scaleStep -= Math.floor(spiralScale);
+                    //scaleStep -= spiralScale-1;
+                    scaleStep -= (spiralScale % 1).toFixed(2)
                     if(scaleStep <= 0){ 
-                        scaleStep = spiralScale;
+                        console.log('fast forward 1');
+                        scaleStep = 1;
                         i+=1;
                     }
-                }
+                    if((spiralScale % 1).toFixed(2) == 0.75 && (testCt % 4) == 0){
+                        console.log('fast forward 1b');
+                        i+=1;
+                    }
+                } 
                 i+=Math.floor(spiralScale-1);
+                //console.log('fast forward', Math.floor(spiralScale-1));
+                //i+=Math.floor(spiralScale-1);
             }
         }
+        //console.log('sphereMap', result);
         return result;
     }
 }
