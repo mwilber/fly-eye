@@ -16,39 +16,39 @@ import '../app-shell.css';
 // Load application styles
 import '../styles/main.scss';
 
-import './getUserMedia-polyfill';
+// import './getUserMedia-polyfill';
 
-import { PixelRenderer } from './PixelRenderer';
-import { SphereHelper } from './SphereHelper';
-import { ThreeRenderer } from './ThreeRenderer';
-import { CameraHelper } from './CameraHelper';
+// import { PixelRenderer } from './PixelRenderer';
+// import { SphereHelper } from './SphereHelper';
+// import { ThreeRenderer } from './ThreeRenderer';
+// import { CameraHelper } from './CameraHelper';
 
-const FASCETS = 8;
-let elemImg = document.getElementById('refimg');
-let elemVideo = document.querySelector('video');
+// const FASCETS = 8;
+// let elemImg = document.getElementById('refimg');
+// let elemVideo = document.querySelector('video');
 
-let cameraHelper = new CameraHelper();
-let threeRenderer = new ThreeRenderer();
-let pixelRenderer = new PixelRenderer({srcElement: elemImg, resolution: 17});
-let pixelMap = SphereHelper.SpiralMap(17);
-//console.log(pixelMap);
+// let cameraHelper = new CameraHelper();
+// let threeRenderer = new ThreeRenderer();
+// let pixelRenderer = new PixelRenderer({srcElement: elemImg, resolution: 17});
+// let pixelMap = SphereHelper.SpiralMap(17);
+// //console.log(pixelMap);
 
-function animate(){
-    requestAnimationFrame( animate );
-	threeRenderer.render();
-    pixelRenderer.DrawMap();
-    let pixelData = pixelRenderer.GetPixelData();
-    //console.log(pixelData);
-    let sphereColorData = SphereHelper.SphereMap(pixelMap, pixelData, FASCETS);
-    //console.log(SphereHelperdData);
-    threeRenderer.update(sphereColorData);
-}
+// function animate(){
+//     requestAnimationFrame( animate );
+// 	threeRenderer.render();
+//     pixelRenderer.DrawMap();
+//     let pixelData = pixelRenderer.GetPixelData();
+//     //console.log(pixelData);
+//     let sphereColorData = SphereHelper.SphereMap(pixelMap, pixelData, FASCETS);
+//     //console.log(SphereHelperdData);
+//     threeRenderer.update(sphereColorData);
+// }
 
-document.getElementById('camstart').addEventListener('click', (event)=>{
-    pixelRenderer.SetImageSource(elemVideo);
-    cameraHelper.CreateCameraList(document.getElementById('cambuttons'));
-});
+// document.getElementById('camstart').addEventListener('click', (event)=>{
+//     pixelRenderer.SetImageSource(elemVideo);
+//     cameraHelper.CreateCameraList(document.getElementById('cambuttons'));
+// });
 
-document.addEventListener("DOMContentLoaded", (event)=>{ 
-    animate();
-});
+// document.addEventListener("DOMContentLoaded", (event)=>{ 
+//     animate();
+// });
