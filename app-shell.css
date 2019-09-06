@@ -8,8 +8,9 @@ body{
     background: -webkit-linear-gradient(top,  #000000 0%,#7accc8 200px);
     background: linear-gradient(to bottom,  #000000 0%,#7accc8 200px);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#7accc8',GradientType=0 );
-
     color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
 .header{
@@ -23,4 +24,26 @@ body{
     height: calc( 100vh - 330px );
     padding: 5px 2%;
     background-color: #11171e;
+}
+
+.content h1{
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.example{
+    width:80%;
+    max-width: 600px;
+}
+
+.example img{
+    float:left;
+}
+
+.example img.example-a,
+.example img.example-b{
+    width: 45%;
+}
+.example img.arrow{
+    width: 10%;
 }
