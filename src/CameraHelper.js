@@ -1,12 +1,12 @@
 export class CameraHelper{
     constructor(options){ }
 
-    StartCameraFeed(){
-        console.log('camming', this);
+    StartCameraFeed(deviceInfo){
+        console.log('camming', deviceInfo);
         navigator.getUserMedia({
             video: {
                 deviceId: {
-                    exact: this.deviceId
+                    exact: deviceInfo.deviceId
                 }
             }, 
             facingMode: { 
@@ -25,21 +25,37 @@ export class CameraHelper{
     }
 
     CreateCameraList(targetElement){
-        navigator.mediaDevices.enumerateDevices().then((deviceInfos)=>{
-            for (let i = 0; i !== deviceInfos.length; ++i) {
-                const deviceInfo = deviceInfos[i];
-                if (deviceInfo.kind === 'videoinput') {
-                    let tmpBtn = document.createElement('button');
-                    tmpBtn.innerHTML = deviceInfo.label || `camera ${videoSelect.length + 1}`;
-                    tmpBtn.addEventListener('click',this.StartCameraFeed.bind(deviceInfo));
-                    targetElement.appendChild(tmpBtn);
-                } else {
-                    //console.log('Some other kind of source/device: ', deviceInfo);
+        return new Promise((resolve, reject)=>{
+            navigator.mediaDevices.enumerateDevices().then((deviceInfos)=>{
+
+                // deviceInfos = [
+                //     { 
+                //         kind: 'videoinput',
+                //         label: 'FaceTime HD Camera (Built-in)',
+                //         id: 'csO9c0YpAf274OuCPUA53CNE0YHlIr2yXCi+SqfBZZ8='
+                //     },
+                //     { 
+                //         kind: 'audioinput',
+                //         label: 'default (Built-in Microphone)',
+                //         id: 'RKxXByjnabbADGQNNZqLVLdmXlS0YkETYCIbg+XxnvM='
+                //     }
+                // ]
+
+                let camList = [];
+                for (let i = 0; i !== deviceInfos.length; ++i) {
+                    const deviceInfo = deviceInfos[i];
+                    if (deviceInfo.kind === 'videoinput') {
+                        camList.push({...deviceInfos[i]})
+                    } else {
+                        //console.log('Some other kind of source/device: ', deviceInfo);
+                    }
                 }
-            }
-        }).catch((e)=>{
-            //no stream
-            console.log('no camera ', e);
+                resolve(camList);
+            }).catch((e)=>{
+                //no stream
+                console.log('no camera ', e);
+                reject(e);
+            });
         });
     }
 

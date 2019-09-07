@@ -91,8 +91,8 @@ export class SphereHelper {
                 //spiralScale = (spiralLength - (FASCETS*4))/spiralLength;
                 //spiralScale = .25;
                 scaleStep = 1;
-                console.log('----------------------------------------');
-                console.log('spiral', spiralIteration, spiralLength, spiralScale, i);
+                //console.log('----------------------------------------');
+                //console.log('spiral', spiralIteration, spiralLength, spiralScale, i);
             }
     
             currentIterationCt++;
@@ -128,7 +128,7 @@ export class SphereHelper {
                 result.push(averageColor);
             }else if(spiralIteration == 3){
                 if(i==24 || (i+1)%8 == 0){
-                    console.log('add one to row 3', i);
+                    //console.log('add one to row 3', i);
                     result.push(averageColor);
                     result.push(averageColor);
                     result.push(averageColor);
@@ -137,7 +137,7 @@ export class SphereHelper {
             }
             
             if( spiralIteration > 4 ){    
-                console.log('checking ', i, testCt, scaleStep, (spiralScale % 1).toFixed(2) == 0.75, (testCt % 4) == 0);
+                //console.log('checking ', i, testCt, scaleStep, (spiralScale % 1).toFixed(2) == 0.75, (testCt % 4) == 0);
                 testCt++;
             //}else{
                 //console.log('butter zone')
@@ -148,12 +148,12 @@ export class SphereHelper {
                     //scaleStep -= spiralScale-1;
                     scaleStep -= (spiralScale % 1).toFixed(2)
                     if(scaleStep <= 0){ 
-                        console.log('fast forward 1');
+                        //console.log('fast forward 1');
                         scaleStep = 1;
                         i+=1;
                     }
                     if((spiralScale % 1).toFixed(2) == 0.75 && (testCt % 4) == 0){
-                        console.log('fast forward 1b');
+                        //console.log('fast forward 1b');
                         i+=1;
                     }
                 } 

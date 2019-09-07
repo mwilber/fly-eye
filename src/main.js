@@ -46,15 +46,47 @@ function animate(){
 }
 
 document.getElementById('camstart').addEventListener('click', (event)=>{
-    pixelRenderer.SetImageSource(elemVideo);
-    cameraHelper.CreateCameraList(document.getElementById('cambuttons'));
-    document.querySelector('.fly-eye').style.display = 'block';
+    let camListing = document.querySelector('.camlist .listing');
+
+    camListing.innerHTML = '<li>No cameras found.</li>';
+
+    cameraHelper.CreateCameraList().then((response)=>{
+        if(response.length > 0){
+            while (camListing.firstChild) {
+                camListing.removeChild(camListing.firstChild);
+            }
+            
+            for (const [idx, deviceInfo] of response.entries()) {
+                let tmpBtn = document.createElement('a');
+                tmpBtn.classList.add('button');
+                tmpBtn.innerHTML = deviceInfo.label || `camera ${idx}`;
+                tmpBtn.addEventListener('click',function(deviceInfo){
+                    return function(){
+                        cameraHelper.StartCameraFeed(deviceInfo);
+                        document.querySelector('.camlist').style.display = 'none';
+                        document.querySelector('.fly-eye').style.display = 'block';
+                    };
+                }(deviceInfo));
+                let tmpLi = document.createElement('li');
+                camListing.appendChild(tmpLi);
+                tmpLi.appendChild(tmpBtn);
+            }
+        }
+        document.querySelector('.camlist').style.display = 'block';
+    }).catch((err)=>{
+        console.log('error getting camera', err);
+    });
 });
 
 document.addEventListener("DOMContentLoaded", (event)=>{ 
+    pixelRenderer.SetImageSource(elemVideo);
     animate();
 });
 
 document.querySelector('.fly-eye .close').addEventListener('click', (event)=>{
     document.querySelector('.fly-eye').style.display = 'none';
+});
+
+document.querySelector('.camlist .close').addEventListener('click', (event)=>{
+    document.querySelector('.camlist').style.display = 'none';
 });
