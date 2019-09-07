@@ -5,12 +5,13 @@ export class PixelRenderer {
         this.res = options.resolution || 0;
 
         this.canvas = document.createElement('canvas');
+        this.canvas.id = 'pixelref';
         this.canvas.width = this.res;
         this.canvas.height = this.res;
         
         this.ctx = this.canvas.getContext('2d');
 
-        document.body.appendChild( this.canvas );
+        document.getElementById(options.nodeId).appendChild( this.canvas );
     }
 
     SetImageSource(srcElement){

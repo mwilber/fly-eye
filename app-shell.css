@@ -11,7 +11,6 @@ body{
     background: linear-gradient(to bottom,  #000000 0%,var(--main-bg-color) 100px);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='var(--main-bg-color)',GradientType=0 );
     color: #fff;
-    font-family: 'Roboto', sans-serif;
     font-family: 'Roboto Condensed', sans-serif;
 }
 
@@ -117,4 +116,49 @@ body{
         width: 80%;
         margin: 10px 10%;
     }
+}
+
+.container.fly-eye{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: #000;
+}
+
+#ThreeJS{
+    position: absolute; 
+    left:0px; 
+    top:0px;
+    width: 100%;
+    height: 100%;
+}
+
+.container.fly-eye video,
+#ThreeJS #pixelref{
+    display:none;
+}
+
+#ThreeJS #threeref{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+}
+
+.container.fly-eye .close{
+    display:block;
+    position: absolute;
+    z-index: 1010;
+    top: 10px;
+    right: 15px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    transform: rotate(45deg);
+    color: #fff;
+    text-decoration: none;
 }

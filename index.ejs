@@ -62,9 +62,14 @@
 		</div>
 		<p>Fly Eye uses WebGL to wrap camera input around a 3D sphere.  Streaming video frames are averaged and converted into a spiral map which is used to color the sphere in real-time. The three.js library is used for 3D modelling.</p>
 		<div class="links">
-			<a href="#" class="button">Try it out</a>
+			<a id="camstart" href="#" class="button">Try it out</a>
 			<a href="https://github.com/mwilber/fly-eye" target="_blank" class="button">Get the code</a>
 		</div>
+	</div>
+	<div class="container fly-eye">
+		<a class="close" href="#">+</a>
+		<div id="ThreeJS" style=""></div>
+		<video id="webcam-video" width="150" height="150" autoplay src="assets/images/1_intro_anim.mp4"></video>
 	</div>
 </body>
 </html>
@@ -74,7 +79,7 @@
 		<h1><%= htmlWebpackPlugin.options.data.title %></h1>
 		<button id="camstart">Choose Camera</button>
 		<div id="cambuttons"></div>
-		<div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
+		
 		<img id="refimg" src="assets/images/landscape.jpeg" height="150"/>
-		<video id="webcam-video" width="150" height="150" autoplay style="display:initial;"></video>
+		
 	</template>

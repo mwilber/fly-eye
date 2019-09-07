@@ -1,13 +1,15 @@
 import * as THREE from 'three';
 
 export class ThreeRenderer{
-    constructor(){
+    constructor(options){
+        let canvasSize = document.documentElement.clientWidth;
+        if( document.documentElement.clientWidth > document.documentElement.clientHeight ) canvasSize = document.documentElement.clientHeight;
         this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-
+        this.camera = new THREE.PerspectiveCamera( 45, 1, 0.1, 1000 );
         this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setSize( 512, 512 );
-        document.body.appendChild( this.renderer.domElement );
+        this.renderer.domElement.id = 'threeref';
+        this.renderer.setSize(canvasSize, canvasSize);
+        document.getElementById(options.nodeId).appendChild( this.renderer.domElement );
 
         // this material causes a mesh to use colors assigned to faces
         let faceColorMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, vertexColors: THREE.FaceColors, side: THREE.DoubleSide } );
@@ -24,7 +26,7 @@ export class ThreeRenderer{
         this.sphere.rotateY(146.25*(Math.PI/180));
         this.scene.add(this.sphere);
 
-        this.camera.position.z = 100;
+        this.camera.position.z = 200;
 
         //document.querySelector('video').src = '/assets/images/1_intro_anim.mp4';
     }
