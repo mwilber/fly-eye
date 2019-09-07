@@ -24,13 +24,14 @@ import { ThreeRenderer } from './ThreeRenderer';
 import { CameraHelper } from './CameraHelper';
 
 const FASCETS = 8;
+const RESOLUTION = 33;
 let elemImg = document.getElementById('refimg');
 let elemVideo = document.querySelector('video');
 
 let cameraHelper = new CameraHelper();
 let threeRenderer = new ThreeRenderer({nodeId: 'ThreeJS'});
-let pixelRenderer = new PixelRenderer({nodeId: 'ThreeJS', srcElement: elemImg, resolution: 17});
-let pixelMap = SphereHelper.SpiralMap(17);
+let pixelRenderer = new PixelRenderer({nodeId: 'ThreeJS', srcElement: elemImg, resolution: RESOLUTION});
+let pixelMap = SphereHelper.SpiralMap(RESOLUTION);
 //console.log(pixelMap);
 
 function animate(){
