@@ -84,6 +84,8 @@ document.addEventListener("DOMContentLoaded", (event)=>{
 });
 
 document.querySelector('.fly-eye .close').addEventListener('click', (event)=>{
+    var track = cameraHelper.stream.getTracks()[0];  // if only one media track
+    track.stop();
     document.querySelector('.fly-eye').style.display = 'none';
 });
 

@@ -1,5 +1,7 @@
 export class CameraHelper{
-    constructor(options){ }
+    constructor(options){ 
+        this.stream = null;
+    }
 
     StartCameraFeed(deviceInfo){
         console.log('camming', deviceInfo);
@@ -16,7 +18,8 @@ export class CameraHelper{
         (stream)=>{
             //stream
             console.log('initting video stream');
-            document.querySelector('video').srcObject = stream;
+            this.stream = stream;
+            document.querySelector('video').srcObject = this.stream;
         },
         (e)=>{
             //no stream
