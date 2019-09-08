@@ -59,6 +59,7 @@ document.getElementById('camstart').addEventListener('click', (event)=>{
     cameraHelper.CreateCameraList().then((response)=>{
         if(response.length === 1){
             openeye(response[0]);
+            return;
         }else if(response.length > 0){
             while (camListing.firstChild) {
                 camListing.removeChild(camListing.firstChild);
@@ -77,8 +78,9 @@ document.getElementById('camstart').addEventListener('click', (event)=>{
                 camListing.appendChild(tmpLi);
                 tmpLi.appendChild(tmpBtn);
             }
-            document.querySelector('.camlist').style.display = 'block';
+            
         }
+        document.querySelector('.camlist').style.display = 'block';
     }).catch((err)=>{
         document.querySelector('.camlist').style.display = 'block';
         console.log('error getting camera', err);
