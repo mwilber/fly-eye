@@ -3,6 +3,10 @@
 */
 
 body{
+    float: left;
+    margin: 0;
+    padding: 0;
+    
     --main-bg-color: #7accc8;
     /* --main-bg-color: #cc7a7a; */
     background-color: var(--main-bg-color);

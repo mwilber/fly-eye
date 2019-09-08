@@ -49,8 +49,6 @@ function openeye(deviceInfo){
     cameraHelper.StartCameraFeed(deviceInfo);
     document.body.classList.remove('mode-list');
     document.body.classList.add('mode-eye');
-    //document.querySelector('.camlist').style.display = 'none';
-    //document.querySelector('.fly-eye').style.display = 'block';
 }
 
 document.getElementById('camstart').addEventListener('click', (event)=>{
