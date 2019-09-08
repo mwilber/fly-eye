@@ -47,8 +47,10 @@ function animate(){
 
 function openeye(deviceInfo){
     cameraHelper.StartCameraFeed(deviceInfo);
-    document.querySelector('.camlist').style.display = 'none';
-    document.querySelector('.fly-eye').style.display = 'block';
+    document.body.classList.remove('mode-list');
+    document.body.classList.add('mode-eye');
+    //document.querySelector('.camlist').style.display = 'none';
+    //document.querySelector('.fly-eye').style.display = 'block';
 }
 
 document.getElementById('camstart').addEventListener('click', (event)=>{
@@ -80,9 +82,9 @@ document.getElementById('camstart').addEventListener('click', (event)=>{
             }
             
         }
-        document.querySelector('.camlist').style.display = 'block';
+        document.body.classList.add('mode-list');
     }).catch((err)=>{
-        document.querySelector('.camlist').style.display = 'block';
+        document.body.classList.add('mode-list');
         console.log('error getting camera', err);
     });
 });
@@ -95,9 +97,9 @@ document.addEventListener("DOMContentLoaded", (event)=>{
 document.querySelector('.fly-eye .close').addEventListener('click', (event)=>{
     var track = cameraHelper.stream.getTracks()[0];  // if only one media track
     track.stop();
-    document.querySelector('.fly-eye').style.display = 'none';
+    document.body.classList.remove('mode-eye');
 });
 
 document.querySelector('.camlist .close').addEventListener('click', (event)=>{
-    document.querySelector('.camlist').style.display = 'none';
+    document.body.classList.remove('mode-list');
 });

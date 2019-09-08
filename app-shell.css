@@ -187,3 +187,15 @@ body{
 .container.camlist .listing a{
     cursor: pointer;
 }
+
+.mode-list .container,
+.mode-eye .container{
+    display: none;
+}
+
+.mode-list .camlist{
+    display: block;
+}
+.mode-eye .camlist{
+    display: block;
+}
