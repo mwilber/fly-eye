@@ -6,7 +6,7 @@ body{
     float: left;
     margin: 0;
     padding: 0;
-    
+
     --main-bg-color: #7accc8;
     /* --main-bg-color: #cc7a7a; */
     background-color: var(--main-bg-color);
@@ -90,7 +90,7 @@ body{
     width:80%;
     max-width: 600px;
     margin-left:50%;
-    margin-top: 25px;
+    margin-top: 10px;
     transform: translateX(-50%);
     float: left;
 }
@@ -200,6 +200,6 @@ body{
 .mode-list .camlist{
     display: block;
 }
-.mode-eye .camlist{
+.mode-eye .fly-eye{
     display: block;
 }
