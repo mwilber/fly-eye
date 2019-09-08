@@ -1,8 +1,8 @@
 {
-	"name": "GreenZeta Webpack Boilerplate",
-	"short_name": "Boilerplate",
-	"theme_color": "#7bb951",
-	"background_color": "#111313",
+	"name": "Fly Eye",
+	"short_name": "Fly Eye",
+	"theme_color": "#7accc8",
+	"background_color": "#11171e",
 	"display": "fullscreen",
 	"Scope": "/",
 	"start_url": "/",
