@@ -4,7 +4,7 @@ export class CameraHelper{
     }
 
     StartCameraFeed(deviceInfo){
-        console.log('camming', deviceInfo);
+        //console.log('camming', deviceInfo);
         navigator.getUserMedia({
             video: {
                 deviceId: {
@@ -17,7 +17,6 @@ export class CameraHelper{
         },
         (stream)=>{
             //stream
-            console.log('initting video stream');
             this.stream = stream;
             document.querySelector('video').srcObject = this.stream;
         },

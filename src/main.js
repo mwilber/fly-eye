@@ -45,13 +45,21 @@ function animate(){
     threeRenderer.update(sphereColorData);
 }
 
+function openeye(deviceInfo){
+    cameraHelper.StartCameraFeed(deviceInfo);
+    document.querySelector('.camlist').style.display = 'none';
+    document.querySelector('.fly-eye').style.display = 'block';
+}
+
 document.getElementById('camstart').addEventListener('click', (event)=>{
     let camListing = document.querySelector('.camlist .listing');
 
     camListing.innerHTML = '<li>No cameras found.</li>';
 
     cameraHelper.CreateCameraList().then((response)=>{
-        if(response.length > 0){
+        if(response.length === 1){
+            openeye(response[0]);
+        }else if(response.length > 0){
             while (camListing.firstChild) {
                 camListing.removeChild(camListing.firstChild);
             }
@@ -62,18 +70,17 @@ document.getElementById('camstart').addEventListener('click', (event)=>{
                 tmpBtn.innerHTML = deviceInfo.label || `camera ${idx}`;
                 tmpBtn.addEventListener('click',function(deviceInfo){
                     return function(){
-                        cameraHelper.StartCameraFeed(deviceInfo);
-                        document.querySelector('.camlist').style.display = 'none';
-                        document.querySelector('.fly-eye').style.display = 'block';
+                        openeye(deviceInfo);
                     };
                 }(deviceInfo));
                 let tmpLi = document.createElement('li');
                 camListing.appendChild(tmpLi);
                 tmpLi.appendChild(tmpBtn);
             }
+            document.querySelector('.camlist').style.display = 'block';
         }
-        document.querySelector('.camlist').style.display = 'block';
     }).catch((err)=>{
+        document.querySelector('.camlist').style.display = 'block';
         console.log('error getting camera', err);
     });
 });
