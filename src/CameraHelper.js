@@ -48,7 +48,7 @@ export class CameraHelper{
                 for (let i = 0; i !== deviceInfos.length; ++i) {
                     const deviceInfo = deviceInfos[i];
                     if (deviceInfo.kind === 'videoinput') {
-                        camList.push({...deviceInfos[i]})
+                        camList.push(deviceInfos[i]);
                     } else {
                         //console.log('Some other kind of source/device: ', deviceInfo);
                     }
